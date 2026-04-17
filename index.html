@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>10er-Potenzen und Kondensatoren</title>
+  <style>
+    :root {
+      --bg: #f4f7fb;
+      --card: #ffffff;
+      --primary: #163a63;
+      --primary-light: #2f5f96;
+      --accent: #d9e6f5;
+      --accent-2: #eef4fb;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --border: #d8e0ea;
+      --good: #166534;
+      --good-bg: #dcfce7;
+      --bad: #991b1b;
+      --bad-bg: #fee2e2;
+      --warn: #92400e;
+      --warn-bg: #fef3c7;
+      --shadow: 0 10px 30px rgba(0,0,0,0.08);
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: linear-gradient(180deg, #eef3f9 0%, #f7f9fc 100%);
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    header {
+      position: relative;
+      padding: 28px 24px 18px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+      color: white;
+      overflow: hidden;
+    }
+
+    .logo-right {
+      position: absolute;
+      top: 18px;
+      right: 24px;
+      width: 120px;
+      max-width: 22vw;
+      background: rgba(255,255,255,0.9);
+      border-radius: 14px;
+      padding: 8px;
+    }
+
+    .qr-left {
+      position: absolute;
+      top: 18px;
+      left: 24px;
+      width: 95px;
+      max-width: 18vw;
+      background: rgba(255,255,255,0.9);
+      border-radius: 14px;
+      padding: 8px;
+    }
+
+    .header-content {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 10px 120px 0 120px;
+      text-align: center;
+    }
+
+    h1 {
+      margin: 0 0 12px;
+      font-size: clamp(1.9rem, 3vw, 2.8rem);
+    }
+
+    .subtitle {
+      margin: 0 auto;
+      max-width: 760px;
+      font-size: 1.05rem;
+      color: rgba(255,255,255,0.95);
+    }
+
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 28px 18px 40px;
+    }
+
+    section {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+
+    h2 {
+      margin-top: 0;
+      color: var(--primary);
+      font-size: 1.55rem;
+    }
+
+    h3 {
+      color: var(--primary);
+      margin-bottom: 8px;
+    }
+
+    .intro-grid,
+    .two-col,
+    .three-col,
+    .task-grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .intro-grid { grid-template-columns: 1.2fr 1fr; }
+    .two-col { grid-template-columns: 1fr 1fr; }
+    .three-col { grid-template-columns: repeat(3, 1fr); }
+    .task-grid { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+
+    .card, .mini-card {
+      background: var(--accent-2);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 18px;
+    }
+
+    .formula-box {
+      background: #f8fbff;
+      border: 2px solid #bfd4ec;
+      border-radius: 16px;
+      padding: 18px;
+      font-size: 1.02rem;
+    }
+
+    .formula {
+      font-size: 1.5rem;
+      font-weight: bold;
+      text-align: center;
+      margin: 8px 0 14px;
+      color: var(--primary);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      background: white;
+      border-radius: 14px;
+      overflow: hidden;
+    }
+
+    th, td {
+      border: 1px solid var(--border);
+      padding: 10px 12px;
+      text-align: left;
+    }
+
+    th {
+      background: #eaf2fb;
+      color: var(--primary);
+    }
+
+    .pill {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      background: var(--accent);
+      color: var(--primary);
+      font-weight: bold;
+      margin-right: 8px;
+      margin-bottom: 8px;
+    }
+
+    .question {
+      font-size: 1.1rem;
+      margin-bottom: 14px;
+      font-weight: bold;
+    }
+
+    .answer-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      margin-top: 10px;
+    }
+
+    input[type="text"], input[type="number"], select {
+      padding: 10px 12px;
+      border: 1px solid #b7c6d8;
+      border-radius: 10px;
+      font-size: 1rem;
+      min-width: 120px;
+      background: white;
+    }
+
+    button {
+      border: none;
+      border-radius: 12px;
+      background: var(--primary);
+      color: white;
+      padding: 10px 16px;
+      cursor: pointer;
+      font-size: 0.98rem;
+      font-weight: bold;
+    }
+
+    button:hover { background: var(--primary-light); }
+
+    .secondary {
+      background: #64748b;
+    }
+
+    .feedback {
+      margin-top: 12px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      font-weight: bold;
+      display: none;
+    }
+
+    .feedback.good {
+      display: block;
+      background: var(--good-bg);
+      color: var(--good);
+      border: 1px solid #86efac;
+    }
+
+    .feedback.bad {
+      display: block;
+      background: var(--bad-bg);
+      color: var(--bad);
+      border: 1px solid #fca5a5;
+    }
+
+    .feedback.warn {
+      display: block;
+      background: var(--warn-bg);
+      color: var(--warn);
+      border: 1px solid #fcd34d;
+    }
+
+    .score-box {
+      background: #edf6ff;
+      border: 1px solid #c7ddf6;
+      border-radius: 14px;
+      padding: 14px;
+      font-weight: bold;
+    }
+
+    .large-center {
+      text-align: center;
+      font-size: 1.15rem;
+      font-weight: bold;
+      color: var(--primary);
+      margin: 8px 0 0;
+    }
+
+    .note {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .solution {
+      display: none;
+      margin-top: 12px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      background: #eefaf2;
+      border: 1px solid #b7e4c7;
+    }
+
+    .footer-link {
+      color: white;
+      text-decoration: underline;
+      font-weight: bold;
+    }
+
+    footer {
+      background: var(--primary);
+      color: white;
+      text-align: center;
+      padding: 22px;
+      margin-top: 30px;
+    }
+
+    .small {
+      font-size: 0.92rem;
+    }
+
+    @media (max-width: 900px) {
+      .intro-grid, .two-col, .three-col {
+        grid-template-columns: 1fr;
+      }
+      .header-content {
+        padding: 110px 10px 0 10px;
+      }
+      .qr-left, .logo-right {
+        top: 16px;
+        width: 88px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="QRCode.png" alt="QR-Code" class="qr-left">
+    <img src="FTS_logo.png" alt="FTS Logo" class="logo-right">
+    <div class="header-content">
+      <h1>Rechnen mit 10er-Potenzen</h1>
+      <p class="subtitle">
+        Interaktive Übungen zur Umformung zwischen 10er-Potenzen und Vorsätzen wie milli, micro, kilo oder mega sowie zur Berechnung der Kapazität von Kondensator A und B.
+      </p>
+    </div>
+  </header>
+
+  <main>
+    <section>
+      <h2>1. Das Wichtigste auf einen Blick</h2>
+      <div class="intro-grid">
+        <div class="formula-box">
+          <div class="pill">Merksatz</div>
+          <p>Große und kleine Zahlen lassen sich mit <strong>10er-Potenzen</strong> übersichtlich schreiben.</p>
+          <p>Zusätzlich kann man <strong>Vorsätze</strong> verwenden:</p>
+          <table>
+            <thead>
+              <tr>
+                <th>Vorsatz</th>
+                <th>Zeichen</th>
+                <th>10er-Potenz</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>nano</td><td>n</td><td>10<sup>-9</sup></td></tr>
+              <tr><td>micro</td><td>µ</td><td>10<sup>-6</sup></td></tr>
+              <tr><td>milli</td><td>m</td><td>10<sup>-3</sup></td></tr>
+              <tr><td>kilo</td><td>k</td><td>10<sup>3</sup></td></tr>
+              <tr><td>mega</td><td>M</td><td>10<sup>6</sup></td></tr>
+              <tr><td>giga</td><td>G</td><td>10<sup>9</sup></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card">
+          <h3>Beispiele</h3>
+          <p><strong>0,001 A</strong> = <strong>1 mA</strong></p>
+          <p><strong>0,000001 F</strong> = <strong>1 µF</strong></p>
+          <p><strong>4 700 Ω</strong> = <strong>4,7 kΩ</strong></p>
+          <p><strong>3 200 000 Hz</strong> = <strong>3,2 MHz</strong></p>
+          <hr>
+          <p class="note">
+            Achten Sie darauf: <strong>M</strong> für mega ist etwas ganz anderes als <strong>m</strong> für milli.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>2. Übung: 10er-Potenz in Vorsatz umwandeln</h2>
+      <div class="two-col">
+        <div class="card">
+          <div class="question" id="q1">Aufgabe wird geladen …</div>
+          <div class="answer-row">
+            <input type="text" id="a1" placeholder="z. B. 3,2 mA">
+            <button onclick="checkTask1()">Prüfen</button>
+            <button class="secondary" onclick="newTask1()">Neue Aufgabe</button>
+          </div>
+          <div id="f1" class="feedback"></div>
+          <p class="note small">Geben Sie Zahl und Vorsatz an, z. B. 2,5 µF oder 7 kΩ.</p>
+        </div>
+        <div class="score-box">
+          <p>Trainingsstand:</p>
+          <p id="score1">Richtig: 0 | Falsch: 0</p>
+          <p class="note">Tipp: Verschieben Sie das Komma so, dass eine gut lesbare Zahl entsteht, und wählen Sie dann den passenden Vorsatz.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>3. Übung: Vorsatz in 10er-Potenz umwandeln</h2>
+      <div class="two-col">
+        <div class="card">
+          <div class="question" id="q2">Aufgabe wird geladen …</div>
+          <div class="answer-row">
+            <input type="text" id="a2" placeholder="z. B. 4,7 · 10^-6 F">
+            <button onclick="checkTask2()">Prüfen</button>
+            <button class="secondary" onclick="newTask2()">Neue Aufgabe</button>
+          </div>
+          <div id="f2" class="feedback"></div>
+          <p class="note small">Schreibweise z. B. 4,7 * 10^-6 F oder 4.7e-6 F ist ebenfalls möglich.</p>
+        </div>
+        <div class="score-box">
+          <p>Trainingsstand:</p>
+          <p id="score2">Richtig: 0 | Falsch: 0</p>
+          <p class="note">Denken Sie an die Einheit. Aus µF wird zum Beispiel F mit 10<sup>-6</sup>.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>4. Schnelles Zuordnen</h2>
+      <div class="task-grid" id="matchingGrid"></div>
+      <div class="answer-row" style="margin-top:18px;">
+        <button onclick="buildMatching()">Neue Zuordnung</button>
+      </div>
+    </section>
+
+    <section>
+      <h2>5. Formel zur Kapazität</h2>
+      <div class="formula-box">
+        <div class="formula">C = ε · A / d</div>
+        <div class="two-col">
+          <div>
+            <p><strong>C</strong> = Kapazität in Farad (F)</p>
+            <p><strong>ε</strong> = Permittivität des Dielektrikums</p>
+            <p><strong>A</strong> = Plattenfläche in m<sup>2</sup></p>
+            <p><strong>d</strong> = Abstand der Platten in m</p>
+          </div>
+          <div>
+            <p><strong>Für Luft:</strong> ε ≈ 8,85 · 10<sup>-12</sup> F/m</p>
+            <p><strong>Wichtig:</strong> Alle Größen müssen in den passenden Einheiten eingesetzt werden.</p>
+            <p class="note">Gerade hier hilft das Rechnen mit 10er-Potenzen und Vorsätzen.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>6. Anwendung: Kondensator A und B berechnen</h2>
+      <div class="two-col">
+        <div class="card">
+          <h3>Kondensator A</h3>
+          <p>Dieser Kondensator ist ähnlich zu Ihrem einfachen Unterrichtsaufbau.</p>
+          <table>
+            <tbody>
+              <tr><th>Plattenfläche A</th><td>0,010 m<sup>2</sup></td></tr>
+              <tr><th>Plattenabstand d</th><td>0,001 m</td></tr>
+              <tr><th>Permittivität ε</th><td>8,85 · 10<sup>-12</sup> F/m</td></tr>
+            </tbody>
+          </table>
+          <div class="answer-row">
+            <input type="text" id="capA" placeholder="Ergebnis in F oder mit Vorsatz">
+            <button onclick="checkCapA()">Prüfen</button>
+            <button class="secondary" onclick="toggleSolution('solA')">Lösung anzeigen</button>
+          </div>
+          <div id="fbA" class="feedback"></div>
+          <div id="solA" class="solution">
+            <strong>Lösung:</strong><br>
+            C = ε · A / d = 8,85 · 10<sup>-12</sup> · 0,010 / 0,001 = 8,85 · 10<sup>-11</sup> F<br>
+            Das sind <strong>88,5 pF</strong>.
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Kondensator B</h3>
+          <p>Dieser Kondensator ist kleiner, hat aber einen sehr kleinen Abstand.</p>
+          <table>
+            <tbody>
+              <tr><th>Plattenfläche A</th><td>0,0001 m<sup>2</sup></td></tr>
+              <tr><th>Plattenabstand d</th><td>0,000001 m</td></tr>
+              <tr><th>Permittivität ε</th><td>8,85 · 10<sup>-12</sup> F/m</td></tr>
+            </tbody>
+          </table>
+          <div class="answer-row">
+            <input type="text" id="capB" placeholder="Ergebnis in F oder mit Vorsatz">
+            <button onclick="checkCapB()">Prüfen</button>
+            <button class="secondary" onclick="toggleSolution('solB')">Lösung anzeigen</button>
+          </div>
+          <div id="fbB" class="feedback"></div>
+          <div id="solB" class="solution">
+            <strong>Lösung:</strong><br>
+            C = ε · A / d = 8,85 · 10<sup>-12</sup> · 0,0001 / 0,000001 = 8,85 · 10<sup>-10</sup> F<br>
+            Das sind <strong>885 pF</strong> oder <strong>0,885 nF</strong>.
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:18px;">
+        <h3>Vergleichsfrage</h3>
+        <p class="question">Welcher Kondensator hat die größere Kapazität?</p>
+        <div class="answer-row">
+          <select id="compareCap">
+            <option value="">Bitte auswählen</option>
+            <option value="A">Kondensator A</option>
+            <option value="B">Kondensator B</option>
+          </select>
+          <button onclick="checkCompare()">Prüfen</button>
+        </div>
+        <div id="fbCompare" class="feedback"></div>
+        <p class="note">Überlegen Sie: Welche Größe hat den stärkeren Einfluss? Große Fläche ist gut, aber ein sehr kleiner Abstand ist ebenfalls sehr wichtig.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>7. Abschlusstest</h2>
+      <div class="three-col">
+        <div class="mini-card">
+          <div class="question">1,2 · 10<sup>-3</sup> A = ?</div>
+          <select id="test1">
+            <option value="">Bitte wählen</option>
+            <option>1,2 mA</option>
+            <option>1,2 MA</option>
+            <option>1,2 µA</option>
+          </select>
+        </div>
+        <div class="mini-card">
+          <div class="question">4700 Ω = ?</div>
+          <select id="test2">
+            <option value="">Bitte wählen</option>
+            <option>4700 mΩ</option>
+            <option>4,7 kΩ</option>
+            <option>47 kΩ</option>
+          </select>
+        </div>
+        <div class="mini-card">
+          <div class="question">3 µF = ?</div>
+          <select id="test3">
+            <option value="">Bitte wählen</option>
+            <option>3 · 10<sup>6</sup> F</option>
+            <option>3 · 10<sup>-6</sup> F</option>
+            <option>3 · 10<sup>-3</sup> F</option>
+          </select>
+        </div>
+      </div>
+      <div class="answer-row" style="margin-top:18px;">
+        <button onclick="checkFinalTest()">Abschlusstest auswerten</button>
+      </div>
+      <div id="finalFeedback" class="feedback"></div>
+      <div class="large-center" id="finalScore"></div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Erstellt für den Unterricht an der Feintechnikschule.</p>
+    <p><a class="footer-link" href="impressum.html">Zum Impressum</a></p>
+  </footer>
+
+  <script>
+    const prefixes = [
+      { name: 'nano', symbol: 'n', exp: -9 },
+      { name: 'micro', symbol: 'µ', exp: -6 },
+      { name: 'milli', symbol: 'm', exp: -3 },
+      { name: 'kilo', symbol: 'k', exp: 3 },
+      { name: 'mega', symbol: 'M', exp: 6 },
+      { name: 'giga', symbol: 'G', exp: 9 }
+    ];
+
+    const units = ['F', 'A', 'V', 'Ω', 'Hz'];
+    let current1 = null;
+    let current2 = null;
+    let score1 = { right: 0, wrong: 0 };
+    let score2 = { right: 0, wrong: 0 };
+
+    function randomItem(arr) {
+      return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    function formatGerman(num) {
+      return num.toString().replace('.', ',');
+    }
+
+    function buildScientificString(value, exp, unit) {
+      return `${formatGerman(value)} · 10^${exp} ${unit}`;
+    }
+
+    function normalizeAnswer(str) {
+      return str
+        .trim()
+        .replace(/,/g, '.')
+        .replace(/µ/g, 'u')
+        .replace(/Ω/g, 'ohm')
+        .replace(/\s+/g, '')
+        .toLowerCase();
+    }
+
+    function newTask1() {
+      const prefix = randomItem(prefixes);
+      const unit = randomItem(units);
+      const base = randomItem([1.2, 2.5, 3.3, 4.7, 6.8, 8.2]);
+      current1 = {
+        base,
+        prefix,
+        unit,
+        question: buildScientificString(base, prefix.exp, unit),
+        answer1: normalizeAnswer(`${formatGerman(base)} ${prefix.symbol}${unit}`),
+        answer2: normalizeAnswer(`${base} ${prefix.symbol}${unit}`)
+      };
+      document.getElementById('q1').innerHTML = `${current1.question} = ?`;
+      document.getElementById('a1').value = '';
+      clearFeedback('f1');
+    }
+
+    function checkTask1() {
+      const user = normalizeAnswer(document.getElementById('a1').value);
+      const fb = document.getElementById('f1');
+      if (!user) {
+        setFeedback('f1', 'Bitte geben Sie ein Ergebnis ein.', 'warn');
+        return;
+      }
+      if (user === current1.answer1 || user === current1.answer2) {
+        score1.right++;
+        setFeedback('f1', `Richtig. ${current1.question} = ${formatGerman(current1.base)} ${current1.prefix.symbol}${current1.unit}`, 'good');
+      } else {
+        score1.wrong++;
+        setFeedback('f1', `Noch nicht richtig. Richtig wäre: ${formatGerman(current1.base)} ${current1.prefix.symbol}${current1.unit}`, 'bad');
+      }
+      updateScore();
+    }
+
+    function newTask2() {
+      const prefix = randomItem(prefixes);
+      const unit = randomItem(units);
+      const base = randomItem([1.5, 2.2, 3.9, 5.6, 7.5, 9.1]);
+      current2 = {
+        base,
+        prefix,
+        unit,
+        question: `${formatGerman(base)} ${prefix.symbol}${unit}`,
+        value: `${formatGerman(base)} · 10^${prefix.exp} ${unit}`,
+        alt1: normalizeAnswer(`${formatGerman(base)}*10^${prefix.exp}${unit}`),
+        alt2: normalizeAnswer(`${base}*10^${prefix.exp}${unit}`),
+        alt3: normalizeAnswer(`${base}e${prefix.exp}${unit}`),
+        alt4: normalizeAnswer(`${formatGerman(base)}·10^${prefix.exp}${unit}`)
+      };
+      document.getElementById('q2').innerHTML = `${current2.question} = ?`;
+      document.getElementById('a2').value = '';
+      clearFeedback('f2');
+    }
+
+    function checkTask2() {
+      const user = normalizeAnswer(document.getElementById('a2').value);
+      if (!user) {
+        setFeedback('f2', 'Bitte geben Sie ein Ergebnis ein.', 'warn');
+        return;
+      }
+      if ([current2.alt1, current2.alt2, current2.alt3, current2.alt4].includes(user)) {
+        score2.right++;
+        setFeedback('f2', `Richtig. ${current2.question} = ${current2.value}`, 'good');
+      } else {
+        score2.wrong++;
+        setFeedback('f2', `Noch nicht richtig. Richtig wäre: ${current2.value}`, 'bad');
+      }
+      updateScore();
+    }
+
+    function updateScore() {
+      document.getElementById('score1').textContent = `Richtig: ${score1.right} | Falsch: ${score1.wrong}`;
+      document.getElementById('score2').textContent = `Richtig: ${score2.right} | Falsch: ${score2.wrong}`;
+    }
+
+    function setFeedback(id, text, type) {
+      const el = document.getElementById(id);
+      el.className = `feedback ${type}`;
+      el.innerHTML = text;
+    }
+
+    function clearFeedback(id) {
+      const el = document.getElementById(id);
+      el.className = 'feedback';
+      el.innerHTML = '';
+    }
+
+    function buildMatching() {
+      const tasks = [
+        ['10^-3', 'milli'],
+        ['10^-6', 'micro'],
+        ['10^3', 'kilo'],
+        ['10^6', 'mega'],
+        ['10^-9', 'nano'],
+        ['10^9', 'giga']
+      ];
+      const grid = document.getElementById('matchingGrid');
+      grid.innerHTML = '';
+      tasks.forEach((item, index) => {
+        const options = tasks.map(t => t[1]).sort(() => Math.random() - 0.5);
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+          <div class="question">Ordnen Sie zu: <strong>${item[0]}</strong></div>
+          <select id="match_${index}">
+            <option value="">Bitte wählen</option>
+            ${options.map(o => `<option value="${o}">${o}</option>`).join('')}
+          </select>
+          <div id="match_fb_${index}" class="feedback"></div>
+          <div class="answer-row" style="margin-top:12px;">
+            <button onclick="checkMatch(${index}, '${item[1]}')">Prüfen</button>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function checkMatch(index, correct) {
+      const value = document.getElementById(`match_${index}`).value;
+      if (!value) {
+        setFeedback(`match_fb_${index}`, 'Bitte wählen Sie eine Antwort aus.', 'warn');
+        return;
+      }
+      if (value === correct) {
+        setFeedback(`match_fb_${index}`, 'Richtig zugeordnet.', 'good');
+      } else {
+        setFeedback(`match_fb_${index}`, `Noch nicht richtig. Richtig ist: ${correct}.`, 'bad');
+      }
+    }
+
+    function parseNumericInput(input) {
+      let s = input.trim().replace(/,/g, '.').replace(/µ/g, 'u');
+      s = s.replace(/\s+/g, '');
+
+      const prefixMap = {
+        p: 1e-12,
+        n: 1e-9,
+        u: 1e-6,
+        m: 1e-3,
+        k: 1e3,
+        M: 1e6,
+        G: 1e9
+      };
+
+      const prefixMatch = s.match(/^([0-9]+(?:\.[0-9]+)?)([pnumkMG]?)(f)?$/i);
+      if (prefixMatch) {
+        let num = parseFloat(prefixMatch[1]);
+        let p = prefixMatch[2] || '';
+        if (p === 'K') p = 'k';
+        if (p === 'U') p = 'u';
+        if (p && prefixMap[p] !== undefined) {
+          return num * prefixMap[p];
+        }
+        return num;
+      }
+
+      const sci = s.match(/^([0-9]+(?:\.[0-9]+)?)(?:\*|·)?10\^?(-?[0-9]+)(f)?$/i);
+      if (sci) {
+        return parseFloat(sci[1]) * Math.pow(10, parseInt(sci[2], 10));
+      }
+
+      const ematch = s.match(/^([0-9]+(?:\.[0-9]+)?)(e-?[0-9]+)(f)?$/i);
+      if (ematch) {
+        return Number(ematch[1] + ematch[2]);
+      }
+
+      const pure = Number(s);
+      if (!isNaN(pure)) return pure;
+
+      return NaN;
+    }
+
+    function checkCapA() {
+      const val = parseNumericInput(document.getElementById('capA').value);
+      const target = 8.85e-11;
+      if (isNaN(val)) {
+        setFeedback('fbA', 'Bitte geben Sie ein lesbares Ergebnis ein.', 'warn');
+        return;
+      }
+      if (Math.abs(val - target) / target < 0.05) {
+        setFeedback('fbA', 'Richtig. Kondensator A hat eine Kapazität von 8,85 · 10^-11 F = 88,5 pF.', 'good');
+      } else {
+        setFeedback('fbA', 'Noch nicht richtig. Prüfen Sie noch einmal Fläche, Abstand und 10er-Potenzen.', 'bad');
+      }
+    }
+
+    function checkCapB() {
+      const val = parseNumericInput(document.getElementById('capB').value);
+      const target = 8.85e-10;
+      if (isNaN(val)) {
+        setFeedback('fbB', 'Bitte geben Sie ein lesbares Ergebnis ein.', 'warn');
+        return;
+      }
+      if (Math.abs(val - target) / target < 0.05) {
+        setFeedback('fbB', 'Richtig. Kondensator B hat eine Kapazität von 8,85 · 10^-10 F = 885 pF.', 'good');
+      } else {
+        setFeedback('fbB', 'Noch nicht richtig. Achten Sie besonders auf den sehr kleinen Plattenabstand.', 'bad');
+      }
+    }
+
+    function checkCompare() {
+      const value = document.getElementById('compareCap').value;
+      if (!value) {
+        setFeedback('fbCompare', 'Bitte wählen Sie eine Antwort aus.', 'warn');
+        return;
+      }
+      if (value === 'B') {
+        setFeedback('fbCompare', 'Richtig. Kondensator B hat die größere Kapazität.', 'good');
+      } else {
+        setFeedback('fbCompare', 'Noch nicht richtig. Trotz kleinerer Fläche ist der Abstand bei B viel kleiner, dadurch wird die Kapazität größer.', 'bad');
+      }
+    }
+
+    function toggleSolution(id) {
+      const el = document.getElementById(id);
+      el.style.display = el.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function checkFinalTest() {
+      let points = 0;
+      if (document.getElementById('test1').value === '1,2 mA') points++;
+      if (document.getElementById('test2').value === '4,7 kΩ') points++;
+      if (document.getElementById('test3').value === '3 · 10^-6 F') points++;
+
+      const fb = document.getElementById('finalFeedback');
+      const score = document.getElementById('finalScore');
+
+      if (points === 3) {
+        fb.className = 'feedback good';
+        fb.innerHTML = 'Sehr gut. Sie haben alle Aufgaben richtig gelöst.';
+      } else if (points === 2) {
+        fb.className = 'feedback warn';
+        fb.innerHTML = 'Gut. Zwei Antworten sind richtig. Schauen Sie sich die dritte noch einmal an.';
+      } else {
+        fb.className = 'feedback bad';
+        fb.innerHTML = 'Hier ist noch Übung nötig. Nutzen Sie die Aufgaben oben erneut.';
+      }
+      score.textContent = `Ergebnis: ${points} von 3 Punkten`;
+    }
+
+    newTask1();
+    newTask2();
+    buildMatching();
+  </script>
+</body>
+</html>
